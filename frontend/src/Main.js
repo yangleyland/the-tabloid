@@ -9,6 +9,8 @@ import Literature from './pages/Literature';
 import Music from './pages/Music';
 import Article from './pages/Article';
 import Login from './pages/Login';
+import Navbar from './Navbar';
+import SearchResults from './pages/SearchResults'
 // import Signup from '../pages/Signup';
 
 const Main = (props) => {
@@ -22,17 +24,33 @@ const Main = (props) => {
           console.error(error);
         });
     });
+  
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+
+  const [searchBlogs, setSearchBlogs] = useState(null);
+  function searchBlog (data){
+    setSearchBlogs(data);
+  }
+
+  function toggleSearch() {
+    setIsSearchOpen(!isSearchOpen);
+  }
   return (
+    <>
+     <Navbar onSearchClick={toggleSearch} />
     <Routes> {/* The Routes decides which component to show based on the current URL.*/}
       <Route exact path='/art' element={<Art blogs={blogs}  />}></Route>
-      <Route exact path='/' element={<Home blogs={blogs}  />}></Route>
+      <Route exact path='/' element={<Home blogs={blogs} isSearchOpen={isSearchOpen} searchBlogs={searchBlog}  onSearchClick={toggleSearch}/>}></Route>
       <Route exact path='/literature' element={<Literature blogs={blogs}  />}></Route>
       <Route exact path='/music' element={<Music blogs={blogs}  />}></Route>
       <Route exact path='/fashion' element={<Fashion blogs={blogs}  />}></Route>
       <Route exact path='/create-blog' element={<CreateBlog/>}></Route>
       <Route exact path="/article/:id" element={<Article/>}></Route>
       <Route exact path='/login' element={<Login/>}></Route>
+      <Route exact path='/search' element={<SearchResults blogs={searchBlogs} />}></Route>
     </Routes>
+    </>
+   
   );
 }
 

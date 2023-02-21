@@ -3,6 +3,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const mainRoute = require('./routes/mainRoute.js');
 const multer = require('multer');
+const axios = require('axios');
 
 require('dotenv').config();
 
@@ -14,6 +15,32 @@ app.use(express.json());
 app.use(cors());
 app.use(express.json());
 
+
+app.get('/chat', async (req, res) => {
+  try {
+    const message = req.body.message;
+
+    // Make an API request to ChatGPT
+    const response = await axios.post('https://api.openai.com/v1/engines/text-davinci-003/completions', {
+      prompt: message,
+      max_tokens: 150,
+      temperature: 0.5,
+      n: 1,
+      stop: "\n"
+    }, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
+      }
+    });
+
+    // Return the response from ChatGPT to the client
+    res.json({ messageRes: response.data.choices[0].text.trim() });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
 
 const upload = multer({ dest: '../frontend/public' });
 
