@@ -1,34 +1,37 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-function Login() {
-  const [password, setPassword] = useState("");
+import axios from "axios";
+// import { GoogleSpreadsheet } from 'google-spreadsheet';
+function Subscribe({ isSubscribeOpen,onSubscribeClick }) {
+  const [email, setEmail] = useState("");
   let navigate = useNavigate();
-  const handleSubmit = (e) => {
-    //redirect to createBlog while passing a password prop
-    e.preventDefault();
-    console.log(password);
-    if (checkAccessCode(password)) {
-      localStorage.setItem("password", password);
-      // Redirect the user to the password-protected page
-      navigate("/create-blog");
-    } else {
-      localStorage.setItem("password", "wrong");
-      alert("Incorrect password");
-    }
+  const handleSubmit = async (e) => {
+    console.log(email);
+    axios
+      .post(
+        "https://sheet.best/api/sheets/08da85a5-c7fd-477c-8051-40b8b7f2461a",
+        { email: email }
+      )
+      .then((response) => {
+        console.log(response);
+      });
   };
   return (
     <>
-      <FormDiv></FormDiv>
-      <StyledForm onSubmit={handleSubmit}>
-        <SearchText
-          placeholder="password..."
-          
-          type="text"
-          onChange={(e) => setPassword(e.target.value)}
-        ></SearchText>
-        <SearchButton type="submit" value="Submit" />
-      </StyledForm>
+      {isSubscribeOpen && (
+        <>
+          <FormDiv onClick={onSubscribeClick}></FormDiv>
+          <StyledForm onSubmit={handleSubmit}>
+            <SearchText
+              placeholder="subscribe"
+              type="email"
+              onChange={(e) => setEmail(e.target.value)}
+            ></SearchText>
+            <SearchButton type="submit" value="Submit" />
+          </StyledForm>
+        </>
+      )}
     </>
   );
 }
@@ -76,4 +79,4 @@ const StyledForm = styled.form`
   background-color: red;
 `;
 
-export default Login;
+export default Subscribe;

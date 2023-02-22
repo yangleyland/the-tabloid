@@ -25,9 +25,9 @@ function searchArticles(query) {
 
 // middleware that is specific to this router
 router.post('/',async (req,res)=>{
-    const {title,author,body,date,genre,imageUrl} = req.body;
+    const {title,author,body,date,genre,featured,imageUrl} = req.body;
     try {
-        const blogPost=await BlogPostModel.create({title,author,body,date,genre,imageUrl})
+        const blogPost=await BlogPostModel.create({title,author,body,date,genre,featured,imageUrl})
         res.status(200).json(blogPost);
     } catch (err){
         console.log(err);
@@ -62,6 +62,26 @@ router.delete('/blogs/:id', (req, res) => {
       res.status(500).send(error);
   })
 })
+
+//toggle the featured status
+router.post('/blogs/feature/:id',async (req, res) => {
+  try {
+    const id  = req.params.id;
+    const document = await BlogPostModel.findById(id);
+
+    if (!document) {
+      return res.status(404).json({ error: 'Document not found' });
+    }
+
+    const newValue = !document.featured;
+    const updatedDocument = await BlogPostModel.findOneAndUpdate({ _id: id }, { featured: newValue }, { new: true });
+
+    res.status(200).json({ message: 'Boolean field updated successfully!', document: updatedDocument });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
 
 router.post('/search',async (req,res)=>{
   const searchQuery = req.body.query;

@@ -1,15 +1,17 @@
 import React,{useState,useEffect} from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import EditBlogs from './EditBlogs'
 
-function CreateBlog () {
+function CreateBlog ({blogs}) {
     const [fileUrl, setFileUrl] = useState(null);
     const [formData, setFormData] = useState({
         title: "",
         author: "",
         body: "",
         date: "",
-        genre: "art"
+        genre: "art",
+        featured: false
     });
     let navigate = useNavigate(); 
     useEffect(()=>{
@@ -64,6 +66,7 @@ function CreateBlog () {
                 body: formData.body,
                 date: formData.date,
                 genre: formData.genre,
+                featured: false,
                 imageUrl: url
         });
         console.log(response.data);
@@ -108,6 +111,7 @@ function CreateBlog () {
                 </form>
             )
             :(<p></p>)}
+            <EditBlogs blogs={blogs}></EditBlogs>
 
         </div>  
         

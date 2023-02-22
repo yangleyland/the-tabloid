@@ -26,6 +26,10 @@ const blogSchema = new Schema({
         required: true,
         enum: ['art','literature', 'music', 'fashion']
     },
+    featured:{
+        type: Boolean,
+        required: true
+    },
     imageUrl: {
         type: String,
         required: true,
