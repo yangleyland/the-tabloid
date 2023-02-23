@@ -31,10 +31,10 @@ function EditBlogs ({blogs}) {
                 {blogs
                     .map((blog) => (
                         <li key={blog.id}>
-                        <h2><Link to={`/article/${blog._id}`}>{blog.title}</Link></h2>
+                        <p><Link class="link-primary" to={`/article/${blog._id}`}>{blog.title}</Link></p>
                         <p>Featured: {blog.featured?"true":"false"}</p>
-                        <button onClick={()=>handleDelete(blog._id)}>Delete</button>
-                        <button onClick={()=>handleFeature(blog._id)}>Feature</button>
+                        <button class="btn btn-secondary m-2" onClick={()=>handleDelete(blog._id)}>Delete</button>
+                        <button class="btn btn-secondary m-2" onClick={()=>handleFeature(blog._id)}>Feature</button>
                     </li>
                     ))
                 }

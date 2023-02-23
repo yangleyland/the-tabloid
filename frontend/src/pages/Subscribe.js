@@ -3,11 +3,14 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 // import { GoogleSpreadsheet } from 'google-spreadsheet';
-function Subscribe({ isSubscribeOpen,onSubscribeClick }) {
+function Subscribe({ isSubscribeOpen, onSubscribeClick }) {
   const [email, setEmail] = useState("");
   let navigate = useNavigate();
   const handleSubmit = async (e) => {
+    e.preventDefault();
+    e.target.reset();
     console.log(email);
+
     axios
       .post(
         "https://sheet.best/api/sheets/08da85a5-c7fd-477c-8051-40b8b7f2461a",
@@ -15,6 +18,7 @@ function Subscribe({ isSubscribeOpen,onSubscribeClick }) {
       )
       .then((response) => {
         console.log(response);
+        
       });
   };
   return (
@@ -32,11 +36,9 @@ function Subscribe({ isSubscribeOpen,onSubscribeClick }) {
           </StyledForm>
         </>
       )}
+      
     </>
   );
-}
-function checkAccessCode(accessCode) {
-  return accessCode === "password";
 }
 const FormDiv = styled.div`
   position: fixed;

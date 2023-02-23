@@ -1,0 +1,23 @@
+body {
+    font-family: monospace;
+    margin: 0;
+  }
+  
+  section {
+    /* padding: 16px;
+    margin: 16px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, .125);
+    height: 64px; */
+    opacity: 0;
+    transform: translate(0, 50%);
+    visibility: hidden;
+    transition: opacity 200ms ease-out, transform 200ms ease-out;
+    will-change: opacity, visibility;
+  }
+  
+  .is-visible {
+    opacity: 1;
+    transform: none;
+    visibility: visible;
+    display: flex; 
+  }

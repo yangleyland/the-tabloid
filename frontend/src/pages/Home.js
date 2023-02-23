@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import SearchOverlay from "./SearchOverlay";
 import Subscribe from "./Subscribe";
+import GridContainer from "./GridContainer";
 
 function Home({
   blogs,
@@ -12,10 +13,22 @@ function Home({
   isSubscribeOpen,
   onSubscribeClick,
 }) {
-  console.log(blogs);
-  const sortedBlogs = blogs.sort((a, b) => b.featured - a.featured);
-  const firstTwoItems = sortedBlogs.slice(0, 2);
-  const everythingElse = sortedBlogs.slice(2);
+  function compareDates(obj1, obj2) {
+    const date1 = new Date(obj1.date);
+    const date2 = new Date(obj2.date);
+  
+    if (date1 > date2) {
+      return -1;
+    } else if (date1 < date2) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
+  
+  // const sortedBlogs = blogs.sort(compareDates).sort((a, b) => b.featured - a.featured);
+  const firstTwoItems = blogs.slice(0, 2);
+  const everythingElse = blogs.slice(2);
   return (
     <StyledHome>
       <SearchOverlay
@@ -28,116 +41,92 @@ function Home({
         isSubscribeOpen={isSubscribeOpen}
         onSubscribeClick={onSubscribeClick}
       />
-      {/* {(sortedBlogs[0]&&sortedBlogs[1]) ? (
-        <>
-          <LeftHalf>
-            <Link to={`/article/${blogs[0]._id}`} style={{ all: "unset" }}>
-              <img
-                width="560px"
-                src={blogs[0].imageUrl}
-                alt="article context"
-              ></img>
-              <TextBox>
-                <SubTitle>{blogs[0].genre.toUpperCase()}</SubTitle>
-                <ArticleTitle>{blogs[0].title}</ArticleTitle>
-                <SubTitle>BY: {blogs[0].author.toUpperCase()}</SubTitle>
-              </TextBox>
-            </Link>
-          </LeftHalf>
-
-          <RightHalf>
-            <Link to={`/article/${blogs[1]._id}`} style={{ all: "unset" }}>
-              <img
-                width="400px"
-                src={blogs[1].imageUrl}
-                alt="article context"
-              ></img>
-              <CaptionBox>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <SubTitle>{blogs[0].genre.toUpperCase()}</SubTitle>
-                  <SubTitle>BY: {blogs[0].author.toUpperCase()}</SubTitle>
-                </div>
-
-                <ArticleTitle style={{ textAlign: "left", fontSize: "32px" }}>
-                  {blogs[0].title}
-                </ArticleTitle>
-              </CaptionBox>
-            </Link>
-          </RightHalf>
-        </>
-      ) : (
-        <p></p>
-      )} */}
-      {firstTwoItems.map((blog, index) => {
-        if (index < 1) {
-          // Display the first three elements differently
-          return (
-            <LeftHalf>
-              <Link to={`/article/${blog._id}`} style={{ all: "unset" }}>
-                <img
-                  width="560px"
-                  src={blog.imageUrl}
-                  alt="article context"
-                ></img>
-                <TextBox>
-                  <SubTitle>{blog.genre.toUpperCase()}</SubTitle>
-                  <ArticleTitle>{blog.title}</ArticleTitle>
-                  <SubTitle>BY: {blog.author.toUpperCase()}</SubTitle>
-                </TextBox>
-              </Link>
-            </LeftHalf>
-          );
-        } else if (index < 2) {
-          return (
-            <RightHalf>
-              <Link to={`/article/${blog._id}`} style={{ all: "unset" }}>
-                <img
-                  width="400px"
-                  src={blog.imageUrl}
-                  alt="article context"
-                ></img>
-                <CaptionBox>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                    }}
-                  >
+      <FrontPage>
+        {firstTwoItems.map((blog, index) => {
+          if (index < 1) {
+            // Display the first three elements differently
+            return (
+              <LeftHalf>
+                <Link to={`/article/${blog._id}`} style={{ all: "unset" }}>
+                  <StyledImg
+                    width="560px"
+                    src={blog.imageUrl}
+                    alt="article context"
+                  ></StyledImg>
+                  <TextBox>
                     <SubTitle>{blog.genre.toUpperCase()}</SubTitle>
+                    <ArticleTitle>{blog.title}</ArticleTitle>
                     <SubTitle>BY: {blog.author.toUpperCase()}</SubTitle>
-                  </div>
+                  </TextBox>
+                </Link>
+              </LeftHalf>
+            );
+          } else if (index < 2) {
+            return (
+              <RightHalf>
+                <Link to={`/article/${blog._id}`} style={{ all: "unset" }}>
+                  <StyledImg
+                    width="400px"
+                    src={blog.imageUrl}
+                    alt="article context"
+                  ></StyledImg>
+                  <CaptionBox>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <SubTitle>{blog.genre.toUpperCase()}</SubTitle>
+                      <SubTitle>BY: {blog.author.toUpperCase()}</SubTitle>
+                    </div>
 
-                  <ArticleTitle style={{ textAlign: "left", fontSize: "32px" }}>
-                    {blog.title}
-                  </ArticleTitle>
-                </CaptionBox>
-              </Link>
-            </RightHalf>
-          );
-        }
-      })}
+                    <ArticleTitle
+                      style={{ textAlign: "left", fontSize: "32px" }}
+                    >
+                      {blog.title}
+                    </ArticleTitle>
+                  </CaptionBox>
+                </Link>
+              </RightHalf>
+            );
+          }
+        })}
+      </FrontPage>
+
       <ArticleContainer>
-        {everythingElse.map((blog) => (
-          <h2>
-            <Link to={`/article/${blog._id}`}>{blog.title}</Link>
-          </h2>
-        ))}
+        <GridContainer blogs={everythingElse} />
       </ArticleContainer>
     </StyledHome>
   );
 }
+const FrontPage = styled.div`
+  display: flex;
+  width: 100%;
+  @media (max-width: 1270px) {
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+  }
+`;
+const StyledImg = styled.img`
+  border-radius: 7px;
+  :hover {
+    -webkit-filter: brightness(70%);
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    -ms-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+  }
+`;
 const ArticleContainer = styled.div`
-    display: block;
-    padding-left: 20px;
+  display: block;
+  padding: 73px;
 `;
 const CaptionBox = styled.div`
   width: 360px;
-  height: 300px;
+
   padding: 20px;
 `;
 const StyledHome = styled.div`
@@ -164,17 +153,22 @@ const SubTitle = styled.p`
 `;
 
 const LeftHalf = styled.div`
-  width: 45%;
+  width: 47%;
   display: flex;
   justify-content: center;
 `;
 const RightHalf = styled.div`
-  width: 45%;
+  width: 47%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-end;
   padding-right: 73px;
+  @media (max-width: 1270px) {
+    padding: 0;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 const TextBox = styled.div`
   position: absolute;

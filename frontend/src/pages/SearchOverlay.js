@@ -17,18 +17,24 @@ function SearchResults ({blogs,isSearchOpen,onSearchClick,searchBlogs}) {
         event.preventDefault();
         setSearched(true);
         console.log(query);
-        axios.post('http://localhost:3200/search',{query: query}).then(
-            response=>{
-                setSearchBlog(response.data);
-                console.log(response.data);
-                console.log(blogs);
-                searchBlogs(response.data);
-                let path = `/Search`; 
-                navigate(path);
-            }
-        ).catch(error => {
-            console.error(error);
-          });
+        // axios.post('http://localhost:3200/search',{query: query}).then(
+        //     response=>{
+        //         setSearchBlog(response.data);
+        //         console.log(response.data);
+        //         console.log(blogs);
+        //         searchBlogs(response.data);
+        //         let path = `/Search`; 
+        //         navigate(path);
+        //         onSearchClick();
+        //     }
+        // ).catch(error => {
+        //     console.error(error);
+        //   });
+
+        //new test code
+        let path = `/Search/${query}`; 
+        onSearchClick();
+        navigate(path);
     }
     return (
         <>

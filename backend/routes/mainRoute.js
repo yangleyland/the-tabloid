@@ -9,7 +9,7 @@ function searchArticles(query) {
 
   return BlogPostModel.find(
     { $text: { $search: searchQuery } },
-    { score: { $meta: 'textScore' }, title: 1, body: 1 }
+    { score: { $meta: 'textScore' }, title: 1, body: 1,imageUrl:1 }
   )
   .sort({ score: { $meta: 'textScore' } })
   .then((articles) => {

@@ -26,7 +26,6 @@ const Main = (props) => {
         console.error(error);
       });
   });
-
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const [searchBlogs, setSearchBlogs] = useState(null);
@@ -40,19 +39,45 @@ const Main = (props) => {
   function toggleSubscribe() {
     setIsSubscribeOpen(!isSubscribeOpen);
   }
+  function compareDates(obj1, obj2) {
+    const date1 = new Date(obj1.date);
+    const date2 = new Date(obj2.date);
+  
+    if (date1 > date2) {
+      return -1;
+    } else if (date1 < date2) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
+  const sortedBlogs = blogs.sort(compareDates).sort((a, b) => b.featured - a.featured);
   return (
     <>
       <Navbar onSearchClick={toggleSearch} onSubscribeClick={toggleSubscribe} />
       <Routes>
         {" "}
         {/* The Routes decides which component to show based on the current URL.*/}
-        <Route exact path="/art" element={<Art blogs={blogs} />}></Route>
+        <Route
+          exact
+          path="/art"
+          element={
+            <Art
+              isSearchOpen={isSearchOpen}
+              searchBlogs={searchBlog}
+              onSearchClick={toggleSearch}
+              isSubscribeOpen={isSubscribeOpen}
+              onSubscribeClick={toggleSubscribe}
+              blogs={blogs}
+            />
+          }
+        ></Route>
         <Route
           exact
           path="/"
           element={
             <Home
-              blogs={blogs}
+              blogs={sortedBlogs}
               isSearchOpen={isSearchOpen}
               searchBlogs={searchBlog}
               onSearchClick={toggleSearch}
@@ -64,21 +89,78 @@ const Main = (props) => {
         <Route
           exact
           path="/literature"
-          element={<Literature blogs={blogs} />}
+          element={
+            <Literature
+              isSearchOpen={isSearchOpen}
+              searchBlogs={searchBlog}
+              onSearchClick={toggleSearch}
+              isSubscribeOpen={isSubscribeOpen}
+              onSubscribeClick={toggleSubscribe}
+              blogs={sortedBlogs}
+            />
+          }
         ></Route>
-        <Route exact path="/music" element={<Music blogs={blogs} />}></Route>
+        <Route
+          exact
+          path="/music"
+          element={
+            <Music
+              isSearchOpen={isSearchOpen}
+              searchBlogs={searchBlog}
+              onSearchClick={toggleSearch}
+              isSubscribeOpen={isSubscribeOpen}
+              onSubscribeClick={toggleSubscribe}
+              blogs={sortedBlogs}
+            />
+          }
+        ></Route>
         <Route
           exact
           path="/fashion"
-          element={<Fashion blogs={blogs} />}
+          element={
+            <Fashion
+              blogs={sortedBlogs}
+              isSearchOpen={isSearchOpen}
+              searchBlogs={searchBlog}
+              onSearchClick={toggleSearch}
+              isSubscribeOpen={isSubscribeOpen}
+              onSubscribeClick={toggleSubscribe}
+            />
+          }
         ></Route>
-        <Route exact path="/create-blog" element={<CreateBlog blogs={blogs} />}></Route>
-        <Route exact path="/article/:id" element={<Article />}></Route>
+        <Route
+          exact
+          path="/create-blog"
+          element={<CreateBlog blogs={blogs} />}
+        ></Route>
+        <Route
+          exact
+          path="/article/:id"
+          element={
+            <Article
+              isSearchOpen={isSearchOpen}
+              searchBlogs={searchBlog}
+              onSearchClick={toggleSearch}
+              isSubscribeOpen={isSubscribeOpen}
+              onSubscribeClick={toggleSubscribe}
+              blogSet={blogs}
+            />
+          }
+        ></Route>
         <Route exact path="/login" element={<Login />}></Route>
         <Route
           exact
-          path="/search"
-          element={<SearchResults blogs={searchBlogs} />}
+          path="/search/:id"
+          element={
+            <SearchResults
+              isSearchOpen={isSearchOpen}
+              searchBlogs={searchBlog}
+              onSearchClick={toggleSearch}
+              isSubscribeOpen={isSubscribeOpen}
+              onSubscribeClick={toggleSubscribe}
+              blogs={blogs}
+            />
+          }
         ></Route>
         <Route
           exact
