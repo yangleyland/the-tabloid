@@ -10,12 +10,15 @@ import Music from "./pages/Music";
 import Article from "./pages/Article";
 import Login from "./pages/Login";
 import Navbar from "./Navbar";
+import Footer from "./Footer";
 import SearchResults from "./pages/SearchResults";
 import Subscribe from "./pages/Subscribe";
+import Sidebar from "./pages/Sidebar"
 // import Signup from '../pages/Signup';
 
 const Main = (props) => {
   const [blogs, setBlogs] = useState([]);
+
   useEffect(() => {
     axios
       .get("http://localhost:3200/")
@@ -25,16 +28,20 @@ const Main = (props) => {
       .catch((error) => {
         console.error(error);
       });
-  });
+  },[]);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
-  const [searchBlogs, setSearchBlogs] = useState(null);
+  const [searchBlogs, setSearchBlogs] = useState(null)
+  const [isSidebarOpen,setIsSidebarOpen] = useState(false);
   function searchBlog(data) {
     setSearchBlogs(data);
   }
   const [isSubscribeOpen, setIsSubscribeOpen] = useState(false);
   function toggleSearch() {
     setIsSearchOpen(!isSearchOpen);
+  }
+  function toggleSidebar () {
+    setIsSidebarOpen(!isSidebarOpen)
   }
   function toggleSubscribe() {
     setIsSubscribeOpen(!isSubscribeOpen);
@@ -54,7 +61,9 @@ const Main = (props) => {
   const sortedBlogs = blogs.sort(compareDates).sort((a, b) => b.featured - a.featured);
   return (
     <>
-      <Navbar onSearchClick={toggleSearch} onSubscribeClick={toggleSubscribe} />
+    <Sidebar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar}></Sidebar>
+      <Navbar onSearchClick={toggleSearch} onSubscribeClick={toggleSubscribe} toggleSidebar={toggleSidebar}/>
+
       <Routes>
         {" "}
         {/* The Routes decides which component to show based on the current URL.*/}
@@ -68,7 +77,7 @@ const Main = (props) => {
               onSearchClick={toggleSearch}
               isSubscribeOpen={isSubscribeOpen}
               onSubscribeClick={toggleSubscribe}
-              blogs={blogs}
+              blogs={sortedBlogs}
             />
           }
         ></Route>
@@ -168,6 +177,7 @@ const Main = (props) => {
           element={<Subscribe blogs={searchBlogs} />}
         ></Route>
       </Routes>
+      <Footer/>
     </>
   );
 };

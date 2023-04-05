@@ -21,7 +21,7 @@ function SearchResults({
 
   const { id } = useParams();
   useEffect(() => {
-    console.log("useEffect");
+    
     axios
       .post("http://localhost:3200/search", { query: id })
       .then((response) => {
@@ -50,7 +50,7 @@ function SearchResults({
       <Header>Search</Header>
 
       {(searchBlog.length>0) ?
-        <GridContainer blogs={searchBlog} />
+        <GridContainer showGenre={true} blogs={searchBlog} />
         :
         <p>0 Search Results</p>
       }

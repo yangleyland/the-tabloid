@@ -1,0 +1,15 @@
+.carousel .control-dots {
+  position: absolute;
+  right: 10px; /* Adjust this value to change the position */
+}
+
+.carousel .control-dots .dot {
+  background-color: #ff0000; /* Change this to your desired color */
+}
+
+.carousel .control-dots .dot.selected,
+.carousel .control-dots .dot:hover {
+  background-color: black; /* Change this to your desired selected/hover color */
+}
+.carousel .dot.select {
+}

@@ -4,6 +4,7 @@ import styled from "styled-components";
 import GridContainer from "./GridContainer";
 import SearchOverlay from "./SearchOverlay";
 import Subscribe from "./Subscribe";
+import LineContainer from "./LineContainer";
 
 function Literature({
   blogs,
@@ -27,7 +28,7 @@ function Literature({
         onSubscribeClick={onSubscribeClick}
       />
       <Header>Literature</Header>
-      <GridContainer blogs={filteredBlogs} />
+      <LineContainer blogs={filteredBlogs} />
     </StyledLiterature>
   );
 }
@@ -36,6 +37,8 @@ const Header = styled.h1`
   font-family: "Didot";
   text-align: left;
   padding: 20px;
+  width: 800px;
+  margin: 0 auto;
   font-size: 4em;
 `;
 

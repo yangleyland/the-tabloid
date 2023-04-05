@@ -1,8 +1,9 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import { Link } from "react-router-dom";
 import axios from "axios";
+import styled from "styled-components"
 
-function EditBlogs ({blogs}) {
+function EditBlogs () {
     const handleDelete = async (id) => {
         axios
           .delete(`http://localhost:3200/blogs/${id}`)
@@ -24,9 +25,21 @@ function EditBlogs ({blogs}) {
             console.error(error);
           });
       };
+      const [blogs, setBlogs] = useState([]);
+
+      useEffect(() => {
+        axios
+          .get("http://localhost:3200/")
+          .then((response) => {
+            setBlogs(response.data);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      });
     return (
-        <>
-            <h1>EditBlogs</h1>
+        <StyledEditBlogs>
+             <Header>Edit Blogs</Header>
             <ul>
                 {blogs
                     .map((blog) => (
@@ -39,8 +52,25 @@ function EditBlogs ({blogs}) {
                     ))
                 }
             </ul>        
-        </>
+        </StyledEditBlogs>
     );
 }
+const StyledEditBlogs = styled.div`
+   margin: 70px auto;
+   width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  border: 1px solid red;
+`
+const Header = styled.h1`
+  font-family: "Didot";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 41px;
+  text-transform: uppercase;
 
+  color: #000000;
+`;
 export default EditBlogs;

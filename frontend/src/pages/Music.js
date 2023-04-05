@@ -4,6 +4,7 @@ import styled from "styled-components";
 import GridContainer from "./GridContainer";
 import SearchOverlay from "./SearchOverlay";
 import Subscribe from "./Subscribe";
+import LineContainer from "./LineContainer";
 
 function Music({
   blogs,
@@ -27,7 +28,7 @@ function Music({
         onSubscribeClick={onSubscribeClick}
       />
       <Header>Music</Header>
-      <GridContainer blogs={filteredBlogs} />
+      <LineContainer blogs={filteredBlogs} />
     </StyledFashion>
   );
 }
@@ -35,6 +36,8 @@ const Header = styled.h1`
   font-family: "Didot";
   text-align: left;
   padding: 20px;
+  width: 800px;
+  margin: 0 auto;
   font-size: 4em;
 `;
 

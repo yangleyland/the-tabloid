@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import GridContainer from "./GridContainer";
+import LineContainer from "./LineContainer";
 import SearchOverlay from "./SearchOverlay";
 import Subscribe from "./Subscribe";
 
@@ -26,8 +27,9 @@ function Art({
         isSubscribeOpen={isSubscribeOpen}
         onSubscribeClick={onSubscribeClick}
       />
+
       <Header>Art</Header>
-      <GridContainer blogs={filteredBlogs} />
+      <LineContainer blogs={filteredBlogs} />
     </StyledArt>
   );
 }
@@ -36,12 +38,13 @@ const Header = styled.h1`
   font-family: "Didot";
   text-align: left;
   padding: 20px;
-
+  width: 800px;
+  margin: 0 auto;
   font-size: 4em;
 `;
 
 const StyledArt = styled.div`
-  padding: 50px;
+
 `;
 
 export default Art;

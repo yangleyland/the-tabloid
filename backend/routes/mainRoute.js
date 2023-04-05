@@ -9,7 +9,7 @@ function searchArticles(query) {
 
   return BlogPostModel.find(
     { $text: { $search: searchQuery } },
-    { score: { $meta: 'textScore' }, title: 1, body: 1,imageUrl:1 }
+    { score: { $meta: 'textScore' }, title: 1, body: 1, genre: 1, author: 1, imageUrl:1, date:1 }
   )
   .sort({ score: { $meta: 'textScore' } })
   .then((articles) => {
@@ -25,9 +25,9 @@ function searchArticles(query) {
 
 // middleware that is specific to this router
 router.post('/',async (req,res)=>{
-    const {title,author,body,date,genre,featured,imageUrl} = req.body;
+    const {title,author,body,caption,date,genre,featured,imageUrl} = req.body;
     try {
-        const blogPost=await BlogPostModel.create({title,author,body,date,genre,featured,imageUrl})
+        const blogPost=await BlogPostModel.create({title,author,caption,body,date,genre,featured,imageUrl})
         res.status(200).json(blogPost);
     } catch (err){
         console.log(err);
