@@ -1,6 +1,3 @@
 node_modules
 .next
 pnpm-lock.yaml
-frontend
-backend
-migration/output

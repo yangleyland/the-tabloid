@@ -7,6 +7,4 @@ out/
 *.tsbuildinfo
 next-env.d.ts
 .DS_Store
-migration/output/
-.vercel
 AGENTS.md

@@ -15,7 +15,6 @@ export const metadata: Metadata = {
   title: "Tabloid",
   description: "Tabloid",
   manifest: "/manifest.json",
-  icons: { icon: "/favicon.ico", apple: "/logo192.png" },
 };
 
 export const viewport: Viewport = {
