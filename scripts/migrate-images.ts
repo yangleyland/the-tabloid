@@ -212,12 +212,9 @@ async function loadExternal(url: string): Promise<Buffer> {
 }
 
 async function migrate(options: Options): Promise<void> {
-  if (!existsSync(options.publicDir)) {
-    throw new Error(`Public directory not found: ${options.publicDir}`);
-  }
-  const hashFiles = readdirSync(options.publicDir).filter((name) =>
-    HASH_NAME.test(name),
-  );
+  const hashFiles = existsSync(options.publicDir)
+    ? readdirSync(options.publicDir).filter((name) => HASH_NAME.test(name))
+    : [];
   const posts = await BlogPostModel.find({}, { title: 1, imageUrl: 1 }).lean<
     StoredPost[]
   >();
@@ -284,7 +281,9 @@ async function migrate(options: Options): Promise<void> {
   console.log(
     `${options.dryRun ? "[DRY RUN] no uploads, no database writes" : "[LIVE RUN]"}`,
   );
-  console.log(`Public dir: ${options.publicDir}`);
+  console.log(
+    `Public dir: ${options.publicDir}${existsSync(options.publicDir) ? "" : " (not found)"}`,
+  );
   console.log(`Posts in database: ${posts.length}`);
   console.log(`Hash-named files on disk: ${hashFiles.length}`);
   console.log(
