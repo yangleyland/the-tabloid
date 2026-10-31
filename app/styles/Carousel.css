@@ -1,0 +1,13 @@
+.carousel .control-dots {
+  position: absolute;
+  right: 10px;
+}
+
+.carousel .control-dots .dot {
+  background-color: #ff0000;
+}
+
+.carousel .control-dots .dot.selected,
+.carousel .control-dots .dot:hover {
+  background-color: black;
+}
